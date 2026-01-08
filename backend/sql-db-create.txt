@@ -1,0 +1,27 @@
+-- Создаем базу данных
+CREATE DATABASE Pharmacy;
+
+-- Используем созданную базу данных
+USE Pharmacy;
+
+-- Таблица для хранения информации о заказах
+CREATE TABLE Orders (
+    order_id INT AUTO_INCREMENT PRIMARY KEY,  -- уникальный ID читателя (нередактируемый)
+    full_name VARCHAR(255) NOT NULL            -- ФИО читателя
+);
+
+-- Таблица для хранения информации о книгах
+CREATE TABLE Meds (
+    meds_id INT AUTO_INCREMENT PRIMARY KEY,    -- уникальный ID книги
+    meds_name VARCHAR(255) NOT NULL,         -- ФИО автора книги
+    total_quantity INT NOT NULL                -- Общее количество экземпляров в библиотеке
+);
+
+-- Таблица для хранения информации о выданных книгах
+CREATE TABLE Issued_Meds (
+    issue_id INT AUTO_INCREMENT PRIMARY KEY,   -- уникальный ID выдачи
+    order_id INT,                             -- ID читателя, которому выдана книга
+    meds_id INT,                               -- ID выданной книги
+    FOREIGN KEY (order_id) REFERENCES Orders(order_id) ON DELETE CASCADE,
+    FOREIGN KEY (meds_id) REFERENCES Meds(meds_id) ON DELETE CASCADE
+);
